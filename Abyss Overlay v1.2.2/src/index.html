@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Abyss Overlay</title>
+    <script src="../src/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/>
+    <style>
+        @font-face{
+            font-family: "Minecraftia";
+            src: url("../assets/Minecraftia.ttf");
+        }
+        @font-face{
+            font-family: "abnes";
+            src: url("../assets/abnes.ttf");
+        }
+        html, body{
+            background: rgba(2, 2, 2, 0.288);
+            margin: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+            user-select: none;
+            height: 100%;
+        }
+        body::-webkit-scrollbar{
+            display: none;
+        }
+        ::-webkit-scrollbar{
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track{
+            background: none;
+        }
+        ::-webkit-scrollbar-thumb{
+            background: rgb(94, 94, 94);
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-thumb:hover{
+            background: #555;
+        }
+        p{
+            font-size: "100px";
+            color: white;
+            font-family: "Minecraftia";
+        }
+        div{
+            margin: 0;
+        }
+        .menu{
+            background: rgba(2, 2, 2, 0.199);
+            -webkit-app-region: drag;
+            height: 35px;
+            width: 100%;
+        }
+        .menuitem{
+            display: inline-block;
+            height: inherit;
+            margin: 0;
+            -webkit-transition: background-image 0.1s ease-in-out;
+            transition: background-image 0.1s ease-in-out;
+        }
+        h1{
+            background: -webkit-linear-gradient(rgb(153, 0, 255), rgb(212, 0, 255));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: "abnes";
+            font-size: 30px;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+            width: 200px;
+            text-align: center;
+            line-height: 42px;
+            vertical-align: top;
+        }
+        #discord{
+            background: transparent;
+            background-image: url("../assets/disc1.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #discord:hover{
+            background-image: url("../assets/disc2.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            cursor: pointer;
+        }
+        #info{
+            background: transparent;
+            background-image: url("../assets/info1.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            display: none;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #info:hover{
+            background-image: url("../assets/info2.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            cursor: pointer;
+        }
+        #settings{
+            background: transparent;
+            background-image: url("../assets/settings1.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            display: none;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #settings:hover{
+            background-image: url("../assets/settings2.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            cursor: pointer;
+        }
+        #update{
+            background: transparent;
+            background-image: url("../assets/update1.png");
+            background-size: cover;
+            height: 32px;
+            width: 32px;
+            position: relative;
+            top: -2.5px;
+            display: none;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #update:hover{
+            background-image: url("../assets/update2.png");
+            background-size: cover;
+            height: 32px;
+            width: 32px;
+            cursor: pointer;
+        }
+        #quit{
+            background: transparent;
+            background-image: url("../assets/quit1.png");
+            background-size: cover;
+            float: right;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            margin-left: 0;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #quit:hover{
+            background-image: url("../assets/quit2.png");
+            background-size: cover;
+            height: 25px;
+            width: 25px;
+            cursor: pointer;
+        }
+        #minimize{
+            background: transparent;
+            background-image: url("../assets/min1.png");
+            background-size: cover;
+            float: right;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            margin-right: 0;
+            margin-left: 0;
+            border: none;
+            outline: none;
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #minimize:hover{
+            background-image: url("../assets/min2.png");
+            background-size: cover;
+            height: 25px;
+            width: 25px;
+            cursor: pointer;
+        }
+        #show{
+            background: transparent;
+            background-image: url("../assets/show1.png");
+            background-size: cover;
+            float: right;
+            display: none;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            margin-right: 0;
+            border: none;
+            outline: none;
+            transform: rotate(0deg);
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+            transition: transform 0.1s ease-in-out;
+        }
+        #show:hover{
+            background-image: url("../assets/show2.png");
+            background-size: cover;
+            height: 25px;
+            width: 25px;
+            cursor: pointer;
+        }
+        #pp{/*REMOVE*/
+            background: transparent;
+            background-image: url("../assets/show2.png");
+            background-size: cover;
+            float: right;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            margin-right: 0;
+            border: none;
+            outline: none;
+            transform: rotate(0deg);
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #ppp{/*REMOVE*/
+            background: transparent;
+            background-image: url("../assets/show1.png");
+            background-size: cover;
+            float: right;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
+            margin-right: 0;
+            border: none;
+            outline: none;
+            transform: rotate(0deg);
+            filter: drop-shadow(1px 1px rgb(0, 0, 0));
+            -webkit-app-region: no-drag;
+        }
+        #titles{
+            /* background-color: rgba(255, 0, 0, 0.644); */
+            margin: 0;
+            padding: 0;
+            height: 28px;
+            width: inherit;
+            overflow: hidden;
+            display: none;
+        }
+        .titleitems{
+            background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            font-family: "Minecraftia";
+            font-size: 18px;
+            height: 28px;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            line-height: block;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+            /* background: blue; */
+        }
+        #indexdiv{
+            margin: 0;
+            padding: 0;
+            height: calc(100% - 63px);
+            width: inherit;
+            overflow-y: overlay;
+            display: none;
+        }
+        .indexes{
+            display: inline-block;
+            font-family: "Minecraftia";
+            font-size: 15px;
+            vertical-align: top;
+            margin: 0;
+            margin-top: 5px;
+            padding: 0;
+            min-height: inherit;
+            overflow: hidden;
+            list-style-type: none;
+            text-align: center;
+            color: #AAAAAA;
+            white-space: nowrap;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+            /* background: red; */
+        }
+        li{
+            margin-bottom: 5px;
+        }
+        .startup{
+            background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: white;
+            font-family: "Minecraftia";
+            font-size: 22px;
+            height: 28px;
+            width: 100%;
+            margin: 5px;
+            padding: 0;
+            overflow: hidden;
+            text-align: center;
+            line-height: block;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+        }
+        .clientbutton{
+            display: inline-block;
+            font-family: "Minecraftia";
+            width: 30%;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            margin: 1%;
+            margin-top: 15px;
+            height: 55px;
+            text-align: center;
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 50px;
+            -moz-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+        .clientbutton:hover:not(.updatenotif){
+            background-position: 100% 0;
+            cursor: pointer;
+            transform: scale(1.1) perspective(1px);
+            z-index: -1;
+            -moz-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+        }
+        .clientbutton:focus{
+            outline: none;
+        }
+        .clientbutton#badlion{
+            background-image: linear-gradient(to right, #2caddc, #feb730, #feb730, #2caddc);
+            box-shadow: 0 4px 15px 0 #2caddc;
+        }
+        .clientbutton#lunar{
+            background-image: linear-gradient(to right, #1d6cff, #c324ff, #c324ff, #1d6cff);
+            box-shadow: 0 4px 15px 0 #c324ff;
+        }
+        .clientbutton#vanilla{
+            background-image: linear-gradient(to right, rgb(114,177,71), rgb(79,54,36), rgb(79,54,36), rgb(114,177,71));
+            box-shadow: 0 4px 15px 0 rgb(114,177,71);
+        }
+        .clientbutton#pvplounge{
+            background-image: linear-gradient(to right, rgb(39,163,255), #294a7b, #294a7b, rgb(39,163,255));
+            box-shadow: 0 4px 15px 0 rgb(39,163,255);
+        }
+        .clientbutton#labymod{
+            background-image: linear-gradient(to right, rgb(14,146,236), rgb(56,182,250), rgb(56,182,250), rgb(14,146,236));
+            box-shadow: 0 4px 15px 0 rgb(56,182,250);
+        }
+
+        #clientimg{
+            height: 26.5px;
+            margin-top: 0;
+            padding: 0;
+            margin-right: 10px;
+            position: relative;
+            top: -4.5px;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+        }
+        #settingsdiv, #infodiv{
+            display: none;
+            margin: 0;
+            padding: 0;
+            height: calc(100% - 35px);
+            width: inherit;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+        .infopage{
+            display: inline-block;
+            font-family: "Minecraftia";
+            font-size: 18px;
+            margin: 0px;
+            margin-top: 5px;
+            text-align: center;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+        }
+        .settingspage{
+            display: inline-block;
+            font-family: "Minecraftia";
+            font-size: 18px;
+            margin: 0px;
+            margin-top: 5px;
+            text-align: center;
+            filter: drop-shadow(2px 2px rgb(0, 0, 0));
+            position: relative;
+            z-index: 0;
+        }
+        .revert{
+            background: transparent;
+            background-image: url("../assets/revert1.png");
+            background-size: cover;
+            display: inline-block;
+            height: 35px;
+            width: 35px;
+            margin: 15px;
+            margin-left: 10px;
+            vertical-align: top;
+            border: none;
+            outline: none;
+        }
+        .revert:hover{
+            background-image: url("../assets/revert2.png");
+            background-size: cover;
+            height: 35px;
+            width: 35px;
+            cursor: pointer;
+        }
+        /*swtich*/
+        .switch{
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        .switch input{ 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider{
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        .slider:before{
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 7.5px;
+            bottom: 3px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+        input:checked + .slider{
+            background-color: #c700c7;
+        }
+        input:focus + .slider{
+            box-shadow: 0 0 1px #c700c7;
+        }
+        input:checked + .slider:before{
+            -webkit-transform: translateX(23px);
+            -ms-transform: translateX(23px);
+            transform: translateX(23px);
+        }
+        /* Rounded sliders */
+        .slider.round{
+            border-radius: 34px;
+        }
+        .slider.round:before{
+            border-radius: 50%;
+        }
+        .custom-select-wrapper{
+            position: absolute;
+            user-select: none;
+            width: 30%;
+            margin-left: 10px;
+            z-index: 1;
+        }
+        .custom-select{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border-width: 0 2px 0 2px;
+            border-style: solid;
+            border-color: #394a6d;
+        }
+        .custom-select_trigger{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            font-size: 20px;
+            font-weight: 300;
+            color: #ffffff;
+            height: 30px;
+            line-height: 30px;
+            background: rgba(82, 82, 82, 0.582);
+            cursor: pointer;
+            border-width: 2px;
+            border-style: solid;
+            border-color: #b9b9b9;
+        }
+        .custom-select_trigger:hover{
+            background: rgba(136, 136, 136, 0.74);
+        }
+        .custom-options{
+            position: absolute;
+            display: block;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border: 2px solid #b9b9b9;
+            border-top: 0;
+            background: rgb(134, 134, 134);
+            transition: all 0.5s;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .custom-select.open .custom-options{
+            opacity: 1;
+            visibility: visible;
+            pointer-events: all;
+        }
+        .custom-option{
+            position: relative;
+            display: block;
+            padding: 0 22px 0 22px;
+            font-size: 20px;
+            font-weight: 300;
+            color: #3b3b3b;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            transition: all 0.5s;
+        }
+        .custom-option:hover{
+            cursor: pointer;
+            background-color: #b2b2b2;
+        }
+        .custom-option.selected{
+            color: #ffffff;
+            background-color: #c700c7;
+        }
+        .arrow{
+            position: relative;
+            height: 15px;
+            width: 15px;
+            left: 20px;
+        }
+        .arrow::before, .arrow::after{
+            content: "";
+            position: absolute;
+            bottom: 0px;
+            width: 0.15rem;
+            height: 100%;
+            transition: all 0.5s;
+        }
+        .arrow::before{
+            left: -5px;
+            transform: rotate(45deg);
+            background-color: #d6d6d6;
+        }
+        .arrow::after{
+            left: 5px;
+            transform: rotate(-45deg);
+            background-color: #d6d6d6;
+        }
+        .open .arrow::before{
+            left: -5px;
+            transform: rotate(-45deg);
+        }
+        .open .arrow::after{
+            left: 5px;
+            transform: rotate(45deg);
+        }
+    </style>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';"/>
+</head>
+<body>
+    <div class="menu">
+        <h1 class="menuitem">ABYSS</h1>
+        <img src="" id="clientimg">
+        <button name="Discord Server" class="menuitem" id="discord"></button>
+        <button name="Information" class="menuitem" id="info" style="width: 31px;"></button>
+        <button name="Settings" class="menuitem" id="settings"></button>
+        <button name="Update" class="menuitem" id="update"></button>
+        <button name="Quit" class="menuitem" id="quit"></button>
+        <button name="Minimize" class="menuitem" id="minimize"></button>
+        <button name="Show" class="menuitem" id="show"></button>
+    </div>
+
+    <div id="settingsdiv">
+        <div class="settingspage" style="width: 100%; text-align: left; margin-bottom: 15px; z-index: 2;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Stats gamemode:</p>
+            <div class="custom-select-wrapper settingspage" id="gamemodebtn" style="filter: none;">
+                <div class="custom-select">
+                    <div class="custom-select_trigger"><span style="text-align: center; width: 85%;">Select</span>
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="custom-options">
+                        <span class="custom-option" id="bw">Bedwars</span>
+                        <span class="custom-option" id="sw">Skywars</span>
+                        <span class="custom-option" id="duels">Duels</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left; margin-bottom: 15px; z-index: 1;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Bedwars stats gamemode:</p>
+            <div class="custom-select-wrapper settingspage" id="gmbtn" style="filter: none;">
+                <div class="custom-select">
+                    <div class="custom-select_trigger"><span style="text-align: center; width: 85%;">Select</span>
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="custom-options">
+                        <span class="custom-option" id="overall">Overall</span>
+                        <span class="custom-option" id="solos">Solos</span>
+                        <span class="custom-option" id="doubles">Doubles</span>
+                        <span class="custom-option" id="threes">Threes</span>
+                        <span class="custom-option" id="fours">Fours</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Game start notifs:</p>
+            <label class="switch settingspage" style="margin: 10px; filter: none;">
+                <input class="settingspage" type="checkbox" id="notifsbtn" checked>
+                <span class="slider round settingspage" style="margin: 0px; filter: none;"></span>
+            </label>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Unnick yourself (only for you) [BETA]:</p>
+            <label class="switch settingspage" style="margin: 10px; filter: none;">
+                <input class="settingspage" type="checkbox" id="unnickbtn">
+                <span class="slider round settingspage" style="margin: 0px; filter: none;"></span>
+            </label>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Auto shrink/unshrink:</p>
+            <label class="switch settingspage" style="margin: 10px; filter: none;">
+                <input class="settingspage" type="checkbox" id="shrinkbtn">
+                <span class="slider round settingspage" style="margin: 0px; filter: none;"></span>
+            </label>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Players that say your IGN/send p and f reqs:</p>
+            <label class="switch settingspage" style="margin: 10px; filter: none;">
+                <input class="settingspage" type="checkbox" id="callbtn" checked>
+                <span class="slider round settingspage" style="margin: 0px; filter: none;"></span>
+            </label>
+        </div>
+        <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Change client (will restart overlay):</p>
+            <div class="custom-select-wrapper settingspage" id="changeclient" style="filter: none;">
+                <div class="custom-select" style="width: 250px;">
+                    <div class="custom-select_trigger" style="text-align: center;">&nbspChange client</div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="settingspage" style="width: 100%; text-align: left;">
+            <p class="settingspage" style="margin-left: 2px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: none;">➤Autowho [BETA] (BANNABLE: USE AT YOUR OWN RISK):</p>
+            <label class="switch settingspage" style="margin: 10px; filter: none;">
+                <input class="settingspage" type="checkbox" id="whobtn">
+                <span class="slider round settingspage" style="margin: 0px; filter: none;"></span>
+            </label>
+        </div> -->
+        <p class="settingspage" style="vertical-align: top; margin-left: 2px; margin-top: 15px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤Color/Opacity:</p>
+        <div class="settingspage" style="overflow: visible; margin-top: 8px; margin-left: 15px; height: 35px; width: 30px; z-index: 1;"><div id="color-picker"></div></div>
+        <button name="Revert" class="revert settingspage" id="revertcolor"></button>
+    </div>
+
+    <div id="infodiv">
+        <p class="infopage" style="width: 100%; margin-left: 2px; text-align: left; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤Stats Coloring Key:</p>
+        <div class="infopage" style="background: #AAAAAA; color: #555555; width: 16%; margin-left: 5px;">BAD</div>
+        <div class="infopage" style="background: #FFFFFF; color: #AAAAAA; width: 16%;">OK</div>
+        <div class="infopage" style="background: #FFAA00; color: #FFFF55; width: 16%;">DECENT</div>
+        <div class="infopage" style="background: #00AAAA; color: #55FFFF; width: 16%;">GOOD</div>
+        <div class="infopage" style="background: #AA0000; color: #FF5555; width: 16%;">LEGEND</div>
+        <div class="infopage" style="background: #AA00AA; color: #FF55FF; width: 16%;">GOD</div>
+        <p class="infopage" style="width: 100%; margin-left: 2px; margin-top: 20px; text-align: left; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤Tags:</p>
+        <div class="infopage" style="color: #F3FF00; width: 16%; line-height: 23px; margin-left: 5px;">NICK - nicked player</div>
+        <div class="infopage" style="color: #FF5555; width: 16%; line-height: 23px;">SNPR - potential sniper</div>
+        <div class="infopage" style="color: #5555FF; width: 16%; line-height: 23px;">ALT - potential alt</div>
+        <div class="infopage" style="color: #FFB900; width: 20%; line-height: 23px;">PRTY - potentially in a party</div>
+        <div class="infopage" style="color: #03C800; width: 20%; line-height: 23px;">P - in your party (lobby only)</div>
+        <div class="infopage" style="color: #00C2A2; width: 16%; line-height: 23px;">CALL - typed your IGN in lobby</div>
+        <div class="infopage" style="color: #37B836; width: 20%; line-height: 23px;">PREQ - invited you to their party</div>
+        <div class="infopage" style="color: #D6D600; width: 20%; line-height: 23px;">FREQ - sent you a friend request</div>
+        <div class="infopage" style="color: #36C700; width: 20%; line-height: 23px;">GLD - player from your guild list</div>
+        <div class="infopage" style="color: #D071DA; width: 20%; line-height: 23px;">BST⬢ - Discord server booster</div>
+        <p class="infopage" style="width: 100%; text-align: left; margin-left: 2px; margin-top: 25px; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤To hide/show: CTRL+SHIFT+A</p>
+        <p class="infopage" style="width: 100%; margin-left: 2px; margin-top: 20px; text-align: left; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤How to use:</p>
+        <p class="infopage" style="width: 100%; font-size: 15px; margin-left: 2px; text-align: left;">✧Type "/who" in game lobby to get all players registered on overlay (might take a few secs). ✧Recommended: position overlay on top left or top right of screen and let the hands-free feature control overlay size (read more below)</p>
+        <p class="infopage" style="width: 100%; margin-left: 2px; margin-top: 20px; text-align: left; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤Features:</p>
+        <p class="infopage" style="width: 100%; font-size: 15px; margin-left: 2px; text-align: left;">✧Resizable by dragging the edges. ✧Hands-free: automatically shrinks to just the title bar when game starts, automatically unshrinks when there is a player change in lobby, you can toggle this mode with the green arrow on the top right</p>
+        <p class="infopage" style="width: 100%; margin-left: 2px; margin-top: 20px; text-align: left; background: -webkit-linear-gradient(rgb(237, 146, 255), rgb(255, 255, 255)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">➤PS:</p>
+        <p class="infopage" style="width: 100%; font-size: 15px; margin-left: 2px; text-align: left;">✧This overlay is in EARLY ACCESS, so expect bugs. It was made by Chit (OhChit). It's my first time making an app so please don't expect much. Please join the Discord and message me with any bugs or suggestions!</p>
+    </div>
+
+    <p class="startup">SELECT YOUR CLIENT:</p>
+    <button class="clientbutton" id="badlion" style="margin-left: 2.5%;">Badlion</button>
+    <button class="clientbutton" id="lunar">Lunar 1.8</button>
+    <button class="clientbutton" id="vanilla">Vanilla/Forge</button>
+    <button class="clientbutton" id="pvplounge" style="margin-left: 12.5%;">PvP Lounge</button>
+    <button class="clientbutton" id="labymod" style="margin-left: 12.5%;">Laby Mod</button>
+    <!-- <p class="clientbutton updatenotif" style="color: red; display: none; width: 100%; word-wrap: break-word; white-space: normal; text-align: center;">THIS VERSION IS OUT OF DATE. UPDATE BY JOINING THE DISCORD OR CLICKING THE RED UPDATE BUTTON</p> -->
+    <!--<iframe src="https://discord.com/widget?id=822639649247592528&theme=dark" width="350" height="340" allowtransparency="true" frameborder="0" sandbox="allow-same-origin allow-scripts"></iframe>-->
+    <div id="titles">
+        <p class="titleitems" style="width: 46.75%; padding-left: 2px;" id="playertitle">PLAYERS</p>
+        <p class="titleitems" style="width: 6%;">TAG</p>
+        <p class="titleitems" id="ws_nwl" style="width: 6.5%;">WS</p>
+        <p class="titleitems" id="kdr" style="width: 9.5%;">FKDR</p>
+        <p class="titleitems" style="width: 7%;">WLR</p>
+        <!--<p class="titleitems" style="width: 7.25%;">BBLR</p>-->
+        <p class="titleitems" id="kills" style="width: 11.25%;">FINALS</p>
+        <p class="titleitems" style="width: 9%;/*background-color: rgba(238, 130, 238, 0.644);*/">WINS</p>
+    </div>
+    <div id="indexdiv">
+        <ul class="indexes" id="ign" style="width: 46.75%; text-align: left; padding-left: 2px; list-style-type: none;"></ul>
+        <ul class="indexes" id="tag" style="width: 6%;"></ul>
+        <ul class="indexes" id="ws" style="width: 6.5%;"></ul>
+        <ul class="indexes" id="fkdr" style="width: 9.5%;"></ul>
+        <ul class="indexes" id="wlr" style="width: 7%;"></ul>
+        <!--<ul class="indexes" id="bblr" style="width: 7.25%;"></ul>-->
+        <ul class="indexes" id="finals" style="width: 11.25%;"></ul>
+        <ul class="indexes" id="wins" style="width: 9%;"></ul>
+    </div>
+</body>
+</html>
