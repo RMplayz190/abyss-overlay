@@ -1,5 +1,0 @@
-Welcome to the Abyss Overlay. This is a Bedwars stats overlay created by me in about 1 week of time; it is also my first time creating a desktop app so please expect bugs. Please feel free to reach out to me with bug reports and suggestions by joining the Discord provided in the Overlay.
-
-I will be updating frequenetly depending on how much it is used, so I would appreciate it if you reach out to me and let me know your experience with the overlay. Any constructive criticism is gladly accepted. I hope you enjoy the overlay for completely free. Thanks! :D
-
--Chit
